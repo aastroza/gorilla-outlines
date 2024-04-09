@@ -88,11 +88,11 @@ class OutlinesHandler:
         # This method is used to write the result to the file.
         if not os.path.exists("./result"):
             os.mkdir("./result")
-        if not os.path.exists("./result/" + self.model_name.replace("/", "-")):
-            os.mkdir("./result/" + self.model_name.replace("/", "-"))
+        if not os.path.exists("./result/" + self.model_name.replace("/", "_")):
+            os.mkdir("./result/" + self.model_name.replace("/", "_"))
         with open(
             "./result/"
-            + self.model_name.replace("/", "-")
+            + self.model_name.replace("/", "_")
             + "/"
             + file_to_open.replace(".json", "_result.json"),
             "a+",
@@ -103,7 +103,7 @@ class OutlinesHandler:
         # This method is used to load the result from the file.
         result_list = []
         with open(
-            f"./result/{self.model_name.replace('/', '-')}/gorilla_openfunctions_v1_test_{test_category}_result.json"
+            f"./result/{self.model_name.replace('/', '_')}/gorilla_openfunctions_v1_test_{test_category}_result.json"
         ) as f:
             for line in f:
                 result_list.append(json.loads(line))
