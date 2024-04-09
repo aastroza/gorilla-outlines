@@ -21,8 +21,7 @@ class OutlinesHandler:
     
     def format_result(self, function_name, result):
         # This method is used to format the result in a standard way.
-
-        args_string = ', '.join([f'{key}={value}' for key, value in result.items()])
+        args_string = ', '.join([f"{key}='{value}'" if isinstance(value, str) else f"{key}={value}" for key, value in result.items()])
         # Creating the output string with the function name and arguments
         output_string = f'[{function_name}({args_string})]'
         return output_string
@@ -43,16 +42,19 @@ class OutlinesHandler:
         generator = outlines.generate.json(self.model, schema.strip(), whitespace_pattern="")
         # This method is used to retrive model response for each model.
         start_time = time.time()
-        result = generator(
-            f""""
-        You are an expert in composing functions. You are given a question and a set of possible functions. 
-        Based on the question, you will need to make one or more function/tool calls to achieve the purpose. 
-        If none of the function can be used, point it out. If the given question lacks the parameters required by the function,
-        also point it out. You should only return the function call in tools call sections.
-        Question: {prompt}
-        """
-        )
-        result = self.format_result(functions[0]["name"], result)
+        try:
+            result = generator(
+                f""""
+            You are an expert in composing functions. You are given a question and a set of possible functions. 
+            Based on the question, you will need to make one or more function/tool calls to achieve the purpose. 
+            If none of the function can be used, point it out. If the given question lacks the parameters required by the function,
+            also point it out. You should only return the function call in tools call sections.
+            Question: {prompt}
+            """
+            )
+            result = self.format_result(functions[0]["name"], result)
+        except:
+            result = '[error.message(error="Error occurred")]'
         latency = time.time() - start_time
 
         metadata = {}
