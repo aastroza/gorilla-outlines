@@ -115,3 +115,17 @@ If you want to run `rest` and `javascript` tests for all GPT models and `gorilla
 ```bash
     python ./eval_runner.py --model gorilla-openfunctions-v2 gpt-3.5-turbo-0125 gpt-4-0613 gpt-4-1106-preview gpt-4-0125-preview --test_category rest javascript
 ```
+
+
+### Example result
+
+```bash
+    python openfunctions_evaluation.py --model gpt-4-1106-preview --test_category simple
+```
+
+'"\n    You are an expert in composing functions. You are given a question and a set of possible functions. \n    Based on the question, you will need to make one or more function/tool calls to achieve the purpose. \n    If none of the function can be used, point it out. If the given question lacks the parameters required by the function,\n    also point it out. You should only return the function call in tools call sections.\n    '
+
+
+"Questions:\n    Questions:Calculate the factorial of 5 using math functions.\n Note that the provided function is in Python.\nHere is a list of functions in JSON format that you can invoke:\n[{'name': 'math.factorial', 'description': 'Calculate the factorial of a given number.', 'parameters': {'type': 'dict', 'properties': {'number': {'type': 'integer', 'description': 'The number for which factorial needs to be calculated.'}}, 'required': ['number']}}]. \n    Should you decide to return the function call(s),Put it in the format of [func1(params_name=params_value, params_name2=params_value2...), func2(params)]\n\n    NO other text MUST be included. \n"
+
+[math.factorial(number=5)]

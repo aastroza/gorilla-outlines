@@ -74,6 +74,7 @@ def convert_to_tool(
                 ModelStyle.Google,
                 ModelStyle.Anthropic,
                 ModelStyle.FIREWORK_AI,
+                ModelStyle.Outlines,
             ]
             and stringify_parameters
         ):
@@ -103,6 +104,7 @@ def convert_to_tool(
             ModelStyle.Anthropic,
             ModelStyle.Google,
             ModelStyle.OSSMODEL,
+            ModelStyle.Outlines,
         ]:
             oai_tool.append(item)
         elif model_style in [
