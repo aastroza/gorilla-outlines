@@ -4,7 +4,10 @@ import outlines
 
 from model_handler.constant import GORILLA_TO_OPENAPI
 from model_handler.model_style import ModelStyle
-from model_handler.utils import _cast_to_openai_type
+from model_handler.utils import (
+    _cast_to_openai_type,
+    ast_parse,
+)
 
 class OutlinesHandler:
     model_name: str
@@ -67,17 +70,7 @@ class OutlinesHandler:
 
 
     def decode_ast(self, result, language="Python"):
-        decoded_output = []
-        for invoked_function in result:
-            name = list(invoked_function.keys())[0]
-            params = json.loads(invoked_function[name])
-            if language == "Python":
-                pass
-            else:
-                # all values of the json are casted to string for java and javascript
-                for key in params:
-                    params[key] = str(params[key])
-            decoded_output.append({name: params})
+        decoded_output = ast_parse(result,language)
         return decoded_output
 
     def decode_execute(self, result):
