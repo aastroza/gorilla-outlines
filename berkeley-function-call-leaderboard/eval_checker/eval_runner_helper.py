@@ -243,6 +243,12 @@ MODEL_METADATA_MAPPING = {
         "Databricks",
         "Databricks Open Model",
     ],
+    "TheBloke_Mistral-7B-Instruct-v0.2-GPTQ": [
+        "Mistral-7B-Instruct-v0.2-GPTQ (Outlines)",
+        "https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.2-GPTQ",
+        "TheBloke / Mistral AI",
+        "Apache 2.0",
+    ],
 }
 
 INPUT_PRICE_PER_MILLION_TOKEN = {

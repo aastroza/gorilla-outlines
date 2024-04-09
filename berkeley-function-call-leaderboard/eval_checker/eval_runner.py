@@ -269,10 +269,10 @@ def runner(model_names, test_categories):
     for subdir in subdirs:
 
         model_name = subdir.split(INPUT_PATH)[1]
-        if model_names is not None and model_name not in model_names:
-            continue
-
-        model_name_escaped = model_name.replace("_", "/")
+        if model_names is not None:
+            model_name_escaped = model_name.replace("_", "/")
+            if model_name not in model_names and model_name_escaped not in model_names:
+                continue
 
         files = [
             f
@@ -318,7 +318,7 @@ def runner(model_names, test_categories):
             print("-" * 100)
 
             model_result = load_file(model_result_json)
-            record_cost_latency(LEADERBOARD_TABLE, model_name, model_result)
+            #record_cost_latency(LEADERBOARD_TABLE, model_name, model_result)
 
             if is_relevance(test_category):
                 accuracy, total_count = single_relevance_file_runner(
