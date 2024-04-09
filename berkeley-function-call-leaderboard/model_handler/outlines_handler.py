@@ -38,11 +38,11 @@ class OutlinesHandler:
             "properties": _cast_to_openai_type(functions[0]["parameters"]["properties"], GORILLA_TO_OPENAPI, test_category),
             "required": functions[0]["parameters"]["required"]
         })
-
-        generator = outlines.generate.json(self.model, schema.strip(), whitespace_pattern="")
-        # This method is used to retrive model response for each model.
-        start_time = time.time()
         try:
+            generator = outlines.generate.json(self.model, schema.strip(), whitespace_pattern="")
+            # This method is used to retrive model response for each model.
+            start_time = time.time()
+        
             result = generator(
                 f""""
             You are an expert in composing functions. You are given a question and a set of possible functions. 
@@ -53,9 +53,11 @@ class OutlinesHandler:
             """
             )
             result = self.format_result(functions[0]["name"], result)
+            latency = time.time() - start_time
         except:
             result = '[error.message(error="Error occurred")]'
-        latency = time.time() - start_time
+            latency = None
+        
 
         metadata = {}
         metadata["input_tokens"] = None
