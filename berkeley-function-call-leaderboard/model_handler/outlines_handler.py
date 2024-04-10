@@ -1,6 +1,11 @@
+# Structured Generation of Function Calls using Outlines ( https://github.com/outlines-dev/outlines )
+# PoC Code: Connesson, Rémi. (Apr 2024). Outlines Function Call Gorilla Leaderboard Experiment. GitHub.
+# https://github.com/remiconnesson/outlines-func-call-gorilla-leaderboard-experiment/tree/main.
+
 from auto_gptq import exllama_set_max_input_length
 import os, time, json
 import outlines
+from textwrap import dedent
 
 from model_handler.constant import GORILLA_TO_OPENAPI
 from model_handler.model_style import ModelStyle
@@ -45,16 +50,27 @@ class OutlinesHandler:
             generator = outlines.generate.json(self.model, schema.strip(), whitespace_pattern="")
             # This method is used to retrive model response for each model.
             start_time = time.time()
-        
-            result = generator(
-                f""""
-            You are an expert in composing functions. You are given a question and a set of possible functions. 
-            Based on the question, you will need to make one or more function/tool calls to achieve the purpose. 
-            If none of the function can be used, point it out. If the given question lacks the parameters required by the function,
-            also point it out. You should only return the function call in tools call sections.
-            Question: {prompt}
-            """
-            )
+            prompt_template = dedent(
+                                    """\
+                                [INST]
+                                A user is gonna ask you a question, you need to extract the arguments to be passed to the function that can answer the question.
+                                You must answer the user's question by replying VALID JSON that matches the schema below:
+                                
+                                ```json
+                                {schema}
+                                ```
+                                
+                                ---
+                                
+                                The user's question below
+                                
+                                ```text
+                                {question}
+                                ```
+                                
+                                [/INST]
+                                """)
+            result = generator(prompt_template.format(schema=schema.strip(), question=prompt))
             result = self.format_result(functions[0]["name"], result)
             latency = time.time() - start_time
         except:
