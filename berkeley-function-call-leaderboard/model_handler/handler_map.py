@@ -12,6 +12,7 @@ from model_handler.deepseek_handler import DeepseekHandler
 from model_handler.functionary_handler import FunctionaryHandler
 from model_handler.databricks_handler import DatabricksHandler
 from model_handler.outlines_handler import OutlinesHandler
+from model_handler.modal_outlines_handler import ModalOutlinesHandler
 
 handler_map = {
     "gorilla-openfunctions-v0": GorillaHandler,
@@ -52,4 +53,5 @@ handler_map = {
     "meetkai/functionary-medium-v2.4-FC": FunctionaryHandler,
     "databricks-dbrx-instruct": DatabricksHandler,
     "TheBloke/Mistral-7B-Instruct-v0.2-GPTQ": OutlinesHandler,
+    "mistralai/Mistral-7B-Instruct-v0.2": ModalOutlinesHandler,
 }
