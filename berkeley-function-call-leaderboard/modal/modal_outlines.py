@@ -1,4 +1,3 @@
-# Modal Initalization
 from modal import Image, Stub, build, gpu, enter, method
 
 stub = Stub(name="outlines-app")
