@@ -10,14 +10,6 @@ outlines_image = Image.debian_slim(python_version="3.11").pip_install(
     "accelerate==0.27.2",
 )
 
-# def import_model():
-#     import outlines
-
-#     outlines.models.transformers("mistralai/Mistral-7B-Instruct-v0.2")
-
-
-# outlines_image = outlines_image.run_function(import_model)
-
 @stub.cls(image=outlines_image, gpu=gpu.A100(memory=80), timeout=300)
 class Model:
     @build()
