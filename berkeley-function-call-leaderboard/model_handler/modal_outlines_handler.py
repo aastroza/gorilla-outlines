@@ -2,7 +2,7 @@
 # PoC Code: Connesson, Rémi. (Apr 2024). Outlines Function Call Gorilla Leaderboard Experiment. GitHub.
 # https://github.com/remiconnesson/outlines-func-call-gorilla-leaderboard-experiment/tree/main.
 
-import modal
+from modal import Cls
 import os, json
 from textwrap import dedent
 
@@ -69,8 +69,9 @@ class ModalOutlinesHandler:
                                 
                                 [/INST]
                                 """)
-            g = modal.Function.lookup("outlines-app", "generate")
-            result = g.remote(schema.strip(), prompt_template.format(schema=schema.strip(), question=prompt))
+            Model = Cls.lookup("outlines-app", "Model")
+            m = Model()
+            result = m.generate.remote(schema.strip(), prompt_template.format(schema=schema.strip(), question=prompt))
             result = self.format_result(functions[0]["name"], result)
 
         except:
