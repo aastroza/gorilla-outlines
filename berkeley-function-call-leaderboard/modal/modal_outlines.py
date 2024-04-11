@@ -25,7 +25,7 @@ class Model:
     def generate(self, schema: str, prompt: str):
         import outlines
 
-        generator = outlines.generate.json(self.model, schema.strip(), whitespace_pattern="")
+        generator = outlines.generate.json(self.model, schema.strip())
 
         result = generator(prompt)
 
