@@ -15,7 +15,7 @@ from model_handler.utils import (
 
 
 
-class ModalOutlinesHandler:
+class GlaiveOutlinesHandler:
     model_name: str
     model_style: ModelStyle
 
@@ -51,26 +51,12 @@ class ModalOutlinesHandler:
 
             prompt_template = dedent(
                                     """\
-                                [INST]
-                                A user is gonna ask you a question, you need to extract the arguments to be passed to the function that can answer the question.
-                                You must answer the user's question by replying VALID JSON that matches the schema below:
-                                
-                                ```json
-                                {schema}
-                                ```
-                                
-                                ---
-                                
-                                The user's question below
-                                
-                                ```text
-                                {question}
-                                ```
-                                
-                                [/INST]
-                                """)
+                                    SYSTEM: You are an helpful assistant who has access to the following functions to help the user, you can use the functions if needed-
+                                    {schema}\n
+                                    USER: {question}\n
+                                    """)
             Model = Cls.lookup("outlines-app", "Model")
-            m = Model(model_name=self.model_name)
+            m = Model()
             result = m.generate.remote(schema.strip(), prompt_template.format(schema=schema.strip(), question=prompt))
             result = self.format_result(functions[0]["name"], result)
 

@@ -15,7 +15,7 @@ from model_handler.utils import (
 
 
 
-class ModalOutlinesHandler:
+class GemmaOutlinesHandler:
     model_name: str
     model_style: ModelStyle
 
@@ -50,28 +50,24 @@ class ModalOutlinesHandler:
             # This method is used to retrive model response for each model.
 
             prompt_template = dedent(
-                                    """\
-                                [INST]
+                                    """
+                                <bos><start_of_turn>user\n
                                 A user is gonna ask you a question, you need to extract the arguments to be passed to the function that can answer the question.
-                                You must answer the user's question by replying VALID JSON that matches the schema below:
-                                
-                                ```json
-                                {schema}
-                                ```
-                                
-                                ---
-                                
-                                The user's question below
-                                
-                                ```text
-                                {question}
-                                ```
-                                
-                                [/INST]
+                                You must answer the user's question by replying VALID JSON that matches the schema below:\n
+                                ```json\n
+                                {schema}\n
+                                ```\n
+                                The user's question below:\n
+                                ```text\n
+                                {question}\n
+                                ```\n
+                                <end_of_turn>\n
+                                <start_of_turn>model\n
                                 """)
             Model = Cls.lookup("outlines-app", "Model")
             m = Model(model_name=self.model_name)
-            result = m.generate.remote(schema.strip(), prompt_template.format(schema=schema.strip(), question=prompt))
+            result = m.generate.remote(schema.strip(),
+                                       prompt_template.format(schema=schema.strip(), question=prompt))
             result = self.format_result(functions[0]["name"], result)
 
         except:

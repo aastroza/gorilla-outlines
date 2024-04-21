@@ -13,6 +13,12 @@ from model_handler.functionary_handler import FunctionaryHandler
 from model_handler.databricks_handler import DatabricksHandler
 from model_handler.outlines_handler import OutlinesHandler
 from model_handler.modal_outlines_handler import ModalOutlinesHandler
+from model_handler.mistral_outlines_handler import MistralOutlinesHandler
+from model_handler.gemma_outlines_handler import GemmaOutlinesHandler
+from model_handler.glaive_outlines_handler import GlaiveOutlinesHandler
+from model_handler.deepseek_outlines_handler import DeepseekOutlinesHandler
+from model_handler.gorilla_outlines_handler import GorillaOutlinesHandler
+from model_handler.llama_outlines_handler import LlamaOutlinesHandler
 
 handler_map = {
     "gorilla-openfunctions-v0": GorillaHandler,
@@ -44,14 +50,18 @@ handler_map = {
     "Nexusflow-Raven-v2": NexusHandler,
     "gemini-1.0-pro": GeminiHandler,
     "gemma": OSSHandler,
-    "google/gemma-7b-it": GemmaHandler,
-    "glaiveai/glaive-function-calling-v1": GlaiveHandler,
-    "deepseek-ai/deepseek-coder-6.7b-instruct": DeepseekHandler,
+    "google/gemma-7b-it": GemmaOutlinesHandler,
+    "glaiveai/glaive-function-calling-v1": GlaiveOutlinesHandler,
+    "deepseek-ai/deepseek-coder-6.7b-instruct": DeepseekOutlinesHandler,
+    "deepseek-ai/deepseek-coder-7b-instruct-v1.5": DeepseekOutlinesHandler,
+    "deepseek-ai/deepseek-coder-7b-base-v1.5": DeepseekOutlinesHandler,
     "meetkai/functionary-small-v2.2-FC": FunctionaryHandler,
     "meetkai/functionary-medium-v2.2-FC": FunctionaryHandler,
     "meetkai/functionary-small-v2.4-FC": FunctionaryHandler,
     "meetkai/functionary-medium-v2.4-FC": FunctionaryHandler,
     "databricks-dbrx-instruct": DatabricksHandler,
     "TheBloke/Mistral-7B-Instruct-v0.2-GPTQ": OutlinesHandler,
-    "mistralai/Mistral-7B-Instruct-v0.2": ModalOutlinesHandler,
+    "mistralai/Mistral-7B-Instruct-v0.2": MistralOutlinesHandler,
+    "gorilla-llm/gorilla-openfunctions-v2": GorillaOutlinesHandler,
+    "meta-llama/Meta-Llama-3-8B-Instruct": LlamaOutlinesHandler,
 }

@@ -15,7 +15,7 @@ from model_handler.utils import (
 
 
 
-class ModalOutlinesHandler:
+class GorillaOutlinesHandler:
     model_name: str
     model_style: ModelStyle
 
@@ -51,27 +51,16 @@ class ModalOutlinesHandler:
 
             prompt_template = dedent(
                                     """\
-                                [INST]
-                                A user is gonna ask you a question, you need to extract the arguments to be passed to the function that can answer the question.
-                                You must answer the user's question by replying VALID JSON that matches the schema below:
-                                
-                                ```json
-                                {schema}
-                                ```
-                                
-                                ---
-                                
-                                The user's question below
-                                
-                                ```text
-                                {question}
-                                ```
-                                
-                                [/INST]
-                                """)
+                                    You are an AI programming assistant, utilizing the Gorilla LLM model, developed by Gorilla LLM, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.\n
+                                    ### Instruction: <<function>>
+                                    {schema}\n
+                                    <<question>>{question}\n### Response: 
+                                    """)
             Model = Cls.lookup("outlines-app", "Model")
             m = Model(model_name=self.model_name)
-            result = m.generate.remote(schema.strip(), prompt_template.format(schema=schema.strip(), question=prompt))
+            result = m.generate.remote(schema.strip(),
+                                       prompt_template.format(schema=schema.strip(), question=prompt),
+                                       whitespace_pattern="")
             result = self.format_result(functions[0]["name"], result)
 
         except:

@@ -15,7 +15,7 @@ from model_handler.utils import (
 
 
 
-class ModalOutlinesHandler:
+class MistralOutlinesHandler:
     model_name: str
     model_style: ModelStyle
 
@@ -51,7 +51,7 @@ class ModalOutlinesHandler:
 
             prompt_template = dedent(
                                     """\
-                                [INST]
+                                <s>[INST]
                                 A user is gonna ask you a question, you need to extract the arguments to be passed to the function that can answer the question.
                                 You must answer the user's question by replying VALID JSON that matches the schema below:
                                 
@@ -70,7 +70,7 @@ class ModalOutlinesHandler:
                                 [/INST]
                                 """)
             Model = Cls.lookup("outlines-app", "Model")
-            m = Model(model_name=self.model_name)
+            m = Model(model_name="mistralai/Mistral-7B-Instruct-v0.2")
             result = m.generate.remote(schema.strip(), prompt_template.format(schema=schema.strip(), question=prompt))
             result = self.format_result(functions[0]["name"], result)
 
